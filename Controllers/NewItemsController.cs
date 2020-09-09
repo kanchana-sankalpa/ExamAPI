@@ -62,8 +62,9 @@ namespace GroupCWebAPI.Controllers
                 */
                 vmList.Add(vmNewItem);
             }
+            
 
-          return Ok(vmList);
+            return Ok(vmList);
     
         }
         /*
