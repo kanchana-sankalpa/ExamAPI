@@ -73,12 +73,28 @@ namespace GroupCWebAPI._DAL.Services
 
         public void DeleteNewItem(long id)
         {
-            throw new System.NotImplementedException();
-        }
+            var item = context.NewItem
+          .Where(p => p.Id == id).FirstOrDefault();
+            if (item != null)
+            {
+                context.Entry(item).State = EntityState.Deleted;
+                context.SaveChanges();
+            }
+
+            }
 
         public void UpdateNewItem(NewItemBLLModel model)
         {
-            throw new System.NotImplementedException();
+            var item = context.NewItem
+            .Where(p => p.Id == model.Id).FirstOrDefault();
+            if (item != null)
+            {
+                context.Entry(item).CurrentValues.SetValues(model);
+                context.SaveChanges();
+            }
+            else {
+                throw new KeyNotFoundException();
+            }
         }
 
         public void AddNewItem(NewItemBLLModel model)

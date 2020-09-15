@@ -67,7 +67,7 @@ namespace GroupCWebAPI.Controllers
             return Ok(vmList);
     
         }
-        /*
+       /*
        // GET: api/TodoItems/5
        [HttpGet("{id}")]
        public Task ActionResult<IEnumerable<NewItemViewModel>> GetNewItem(int id)
@@ -81,39 +81,46 @@ namespace GroupCWebAPI.Controllers
 
            return todoItem;
        }
+        */   
+        // PUT: api/TodoItems/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
 
-    // PUT: api/TodoItems/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+        public ActionResult<IEnumerable<NewItemViewModel>> PutTodoItem(long id, NewItemViewModel newItem)
+    //public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
     {
-        if (id != todoItem.Id)
+        if (id != newItem.Id)
         {
             return BadRequest();
         }
 
-        _context.Entry(todoItem).State = EntityState.Modified;
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!TodoItemExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            /*  try
+              {
+                  await _context.SaveChangesAsync();
+              }
+              catch (DbUpdateConcurrencyException)
+              {
+                  if (!TodoItemExists(id))
+                  {
+                      return NotFound();
+                  }
+                  else
+                  {
+                      throw;
+                  }
+              }*/
+            var newIntemBModels = new NewItemBLLModel();
+            newIntemBModels.Name = newItem.Name.ToUpper();
+            newIntemBModels.createdDate = newItem.createdDate; //.ToString();
+            newIntemBModels.Size = newItem.Size;
+            newIntemBModels.Price = newItem.Price;
+            _NewItemService.Update(newIntemBModels);
+
+            return Ok(newIntemBModels);
         }
 
-        return NoContent();
-    }
-    */
 
         // POST: api/NewItems
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -133,27 +140,29 @@ namespace GroupCWebAPI.Controllers
             return Ok(newIntemBModels);
             //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
         }
-        /*
+      
      // DELETE: api/TodoItems/5
      [HttpDelete("{id}")]
-     public async Task<ActionResult<TodoItem>> DeleteTodoItem(long id)
-     {
+        //  public async Task<ActionResult<TodoItem>> DeleteTodoItem(long id)
+        public ActionResult DeleteTodoItem(long id)
+        {
+            /*
          var todoItem = await _context.TodoItems.FindAsync(id);
          if (todoItem == null)
          {
              return NotFound();
          }
+            */
 
-         _context.TodoItems.Remove(todoItem);
-         await _context.SaveChangesAsync();
+            _NewItemService.Delete(id);
 
-         return todoItem;
-     }
-
+            return Ok(id);
+        }
+   /*
      private bool TodoItemExists(long id)
      {
          return _context.TodoItems.Any(e => e.Id == id);
      }
-     */
+   */
     }
 }

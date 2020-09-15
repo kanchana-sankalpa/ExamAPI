@@ -63,7 +63,7 @@ namespace GroupCWebAPI._BAL.Services
 
         public void Update(NewItemBLLModel model)
         {
-            throw new System.NotImplementedException();
+            _dataAccessService.UpdateNewItem(model);
         }
 
         public void Add(NewItemBLLModel model)
@@ -74,7 +74,7 @@ namespace GroupCWebAPI._BAL.Services
 
         public void Delete(long id)
         {
-            throw new System.NotImplementedException();
+            _dataAccessService.DeleteNewItem(id);
         }
 
      
